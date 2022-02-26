@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "default": "trice-60b85",
+    "trice": "trice-60b85"
+  },
+  "targets": {}
+}
