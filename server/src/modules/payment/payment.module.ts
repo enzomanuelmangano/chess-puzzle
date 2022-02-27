@@ -1,12 +1,14 @@
 import { StripeModule } from '@golevelup/nestjs-stripe';
 import { Module } from '@nestjs/common';
 import { STRIPE_PRIVATE_API_KEY, STRIPE_WEBHOOK_SECRET } from 'src/.env';
-import { PaymentHandlerService } from './payment-created.service';
+import { CustomerModule } from '../customer/customer.module';
+
 import { PaymentController } from './payment.controller';
 import { PaymentService } from './payment.service';
 
 @Module({
   imports: [
+    CustomerModule,
     StripeModule.forRoot(StripeModule, {
       apiKey: STRIPE_PRIVATE_API_KEY,
       webhookConfig: {
@@ -15,6 +17,7 @@ import { PaymentService } from './payment.service';
     }),
   ],
   controllers: [PaymentController],
-  providers: [PaymentService, PaymentHandlerService],
+  providers: [PaymentService],
+  exports: [PaymentService],
 })
 export class PaymentModule {}

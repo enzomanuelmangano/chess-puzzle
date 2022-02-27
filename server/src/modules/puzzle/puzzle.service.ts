@@ -14,9 +14,7 @@ export class PuzzleService {
     private puzzleRepository: Repository<Puzzle>,
   ) {}
 
-  getPuzzle(query: GetPuzzleParams) {
-    console.log(query.apiKey);
-
+  getPuzzle() {
     return this.puzzleRepository.findOne();
   }
 }
