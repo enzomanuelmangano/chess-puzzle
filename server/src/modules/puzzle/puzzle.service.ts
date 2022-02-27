@@ -1,7 +1,11 @@
-import { Get, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Puzzle } from './puzzle.entity';
+
+export interface GetPuzzleParams {
+  apiKey: string;
+}
 
 @Injectable()
 export class PuzzleService {
@@ -10,8 +14,9 @@ export class PuzzleService {
     private puzzleRepository: Repository<Puzzle>,
   ) {}
 
-  @Get()
-  getTactic() {
+  getPuzzle(query: GetPuzzleParams) {
+    console.log(query.apiKey);
+
     return this.puzzleRepository.findOne();
   }
 }

@@ -1,12 +1,12 @@
-import { Controller, Get } from '@nestjs/common';
-import { PuzzleService } from './puzzle.service';
+import { Controller, Get, Query } from '@nestjs/common';
+import { GetPuzzleParams, PuzzleService } from './puzzle.service';
 
 @Controller('puzzle')
 export class PuzzleController {
   constructor(private readonly puzzleService: PuzzleService) {}
 
   @Get()
-  getHello() {
-    return this.puzzleService.getTactic();
+  getPuzzle(@Query() query: GetPuzzleParams) {
+    return this.puzzleService.getPuzzle(query);
   }
 }
