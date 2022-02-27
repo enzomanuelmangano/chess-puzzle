@@ -3,11 +3,12 @@ import {
   StripeWebhookHandler,
 } from '@golevelup/nestjs-stripe';
 import { Injectable } from '@nestjs/common';
-import { STRIPE_PRICE_API_ID } from 'src/.env';
+import { BASE_URL, STRIPE_PRICE_API_ID } from 'src/.env';
 import { generateAPIKey } from 'src/helpers';
 import Stripe from 'stripe';
 
 type CheckoutSessionCompleteResult = {
+  apiKey: string;
   hashedAPIKey: string;
   subscriptionItemId: string;
   customerId: string;
@@ -43,7 +44,7 @@ export class PaymentService {
     // Generate API key
     const { hashedAPIKey, apiKey } = generateAPIKey();
     console.log({ apiKey });
-    return { hashedAPIKey, subscriptionItemId, customerId };
+    return { hashedAPIKey, subscriptionItemId, customerId, apiKey };
   }
 
   async checkout() {
@@ -58,8 +59,7 @@ export class PaymentService {
       // {CHECKOUT_SESSION_ID} is a string literal; do not change it!
       // the actual Session ID is returned in the query parameter when your customer
       // is redirected to the success page.
-      success_url:
-        'http://localhost:5000/dashboard?session_id={CHECKOUT_SESSION_ID}',
+      success_url: `${BASE_URL}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: 'http://localhost:5000/payment-error',
     });
     return session;

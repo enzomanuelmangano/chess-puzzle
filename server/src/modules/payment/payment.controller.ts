@@ -22,13 +22,14 @@ export class PaymentController {
 
     if (!checkoutResult) return;
     const {
-      hashedAPIKey: key,
+      // hashedAPIKey,
+      apiKey,
       customerId: id,
       subscriptionItemId,
     } = checkoutResult;
 
     await this.customerService.insert({
-      key,
+      key: apiKey /* TODO: Passed hashedAPIKey */,
       id,
       subscriptionItemId,
       active: true,

@@ -16,7 +16,9 @@ export class PuzzleController {
   async getPuzzle(@Query() { apiKey }: GetPuzzleParams) {
     if (!apiKey) throw new BadRequestException();
     const result = this.puzzleService.getPuzzle();
-    const customer = await this.customerService.findBy(hashAPIKey(apiKey));
+    const customer = await this.customerService.findBy(
+      apiKey /*hashAPIKey(apiKey)*/,
+    );
     if (!customer) throw new BadRequestException();
     // TODO: increment usage asynchronously
     await this.paymentService.incrementUsage(customer.subscriptionItemId);
@@ -27,7 +29,9 @@ export class PuzzleController {
   async getUsage(@Query() { apiKey }: GetPuzzleParams) {
     if (!apiKey) throw new BadRequestException();
 
-    const customer = await this.customerService.findBy(hashAPIKey(apiKey));
+    const customer = await this.customerService.findBy(
+      apiKey /*hashAPIKey(apiKey)*/,
+    );
     if (!customer) throw new BadRequestException();
     // TODO: increment usage asynchronously
     return await this.paymentService.getUsage(customer.subscriptionItemId);
